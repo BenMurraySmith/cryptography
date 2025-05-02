@@ -169,3 +169,12 @@ pub fn montgomery_modular_exponentiation(a:BigInt, e:BigInt, n:BigInt) {}
 
 //miller-rabin primality test
 pub fn is_prime() {}
+
+
+pub fn does_divide(p: &BigInt,q:&BigInt) -> bool {
+    if p.rem(q) == BigInt::ZERO {
+        return true
+    };
+
+    false
+}
