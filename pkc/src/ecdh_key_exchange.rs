@@ -5,11 +5,13 @@ fn main() {
     // example with
     // E: y^2 = x^3 + 2x + 2 mod 17, and generator point G = (5,11) 
 
+    //define public parameters
     let G = (BigInt::from(5), BigInt::from(1));
     let p = BigInt::from(17);
     let a = BigInt::from(2);
     let b = BigInt::from(2);
 
+    //Alice and Bob have access to generator of EC group, prime p and EC equation coefficients a and b
     let sc = SharedConfig {
         generator: G,
         prime: p,
@@ -17,22 +19,29 @@ fn main() {
         param_b: b
     };
 
+    //Alice chooses secret alpha = 3
     let p1 = PartyOne {
         cyclic_group: &sc,
         alpha: BigInt::from(3)
     };
 
+    //Bob chooses secret beta = 11
     let p2 = PartyTwo {
         cyclic_group: &sc,
         beta: BigInt::from(11)
     };
 
+    //Alice computes alpha*G on the EC group and sends result to Bob
     let p1_public = p1.config();
+    //Bob computes beta*G on same group of points and sends result to Alice
     let p2_public = p2.config();
 
+    //Alice computes alpha*(beta*G)
     let p1_private = p1.compute_shared_key(p2_public);
+    //Bob computes beta*(alpha*G)
     let p2_private = p2.compute_shared_key(p1_public);
 
+    //check both parties have the same result
     assert_eq!(p1_private, p2_private);
 }
 

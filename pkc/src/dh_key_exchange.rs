@@ -1,12 +1,17 @@
 use num_bigint::BigInt;
 
-
+//main() is an example of dh key generation 
+//
+//program uses modulus p=17 and generator g=3 as public parameters.
+//Alice and Bob have private params a=5 and b=9 resp.
+//
+//shared key is computed by both parties: g^(ab) mod p
 fn main() {
     //3 is a generator of Z_17
     let p: BigInt = BigInt::from(17);
     let g: BigInt = BigInt::from(3);
 
-
+    //public parameters
     let sc = SharedConfig {
         generator: g,
         prime: p
@@ -38,22 +43,27 @@ fn main() {
 }
 
 
+//constructions of initial setup
+
 struct SharedConfig {
     generator: BigInt,
     prime: BigInt,
 }
 
+//private param a
 struct PartyOne<'a> {
     cyclic_group: &'a SharedConfig,
     a: BigInt
 }
 
+//private param b
 struct PartyTwo<'a> {
     cyclic_group: &'a SharedConfig,
     b: BigInt
 }
 
 impl<'a> PartyOne<'a> {
+    //Alice computes g^a mod p and sends result to Bob
     fn config(&self) -> BigInt {
         let g: BigInt = self.cyclic_group.generator.clone();
         let p: BigInt = self.cyclic_group.prime.clone();
@@ -61,6 +71,7 @@ impl<'a> PartyOne<'a> {
         g.modpow(&self.a, &p)
     }
 
+    //once received computation from Bob, Alice computes shared key (g^b)^a mod p
     fn compute_shared_key(&self, p2_setup: BigInt) -> BigInt {
         let p: BigInt = self.cyclic_group.prime.clone();
 
@@ -69,6 +80,7 @@ impl<'a> PartyOne<'a> {
 }
 
 impl<'a> PartyTwo<'a> {
+    //Bob computes g^b mod p and sends result to Alice
     fn config(&self) -> BigInt {
         let g: BigInt = self.cyclic_group.generator.clone();
         let p: BigInt = self.cyclic_group.prime.clone();
@@ -76,6 +88,7 @@ impl<'a> PartyTwo<'a> {
         g.modpow(&self.b, &p)
     }
 
+    //once received computation from Alice, Bob computes shared key (g^a)^b mod p
     fn compute_shared_key(&self, p1_setup: BigInt) -> BigInt {
         let p: BigInt = self.cyclic_group.prime.clone();
 
