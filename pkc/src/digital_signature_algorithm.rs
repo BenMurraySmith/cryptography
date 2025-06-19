@@ -11,7 +11,7 @@ use sha2::{Sha256, Digest};
 fn main(message:BigInt) {
     //implementation of DSA for small primes p and q
     //
-    //main() generates a digital signature for integer message 'message' and
+    //main() generates a digital signature for integer message and
     //validates the signature
 
     // since 5|30
