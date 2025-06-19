@@ -15,16 +15,16 @@ fn main(message:BigInt) {
     //validates the signature
 
     // since 5|30
-    let = prime_pair = DsaPrimePair::new_small(p=31, q=5)
+    let prime_pair = DsaPrimePair::new_small(p=31, q=5)
 
     //set private key d = 3
-    let = k_priv = DsaPrivateKey::new(d=3, q=prime_pair.q)
+    let k_priv = DsaPrivateKey::new(d=3, q=prime_pair.q)
 
     //generate public parameters alpha and b and return pub/priv key pair
-    let = dsa_key_pair = DsaKeyPair::new(primes=&prime_pair, k_priv=&k_priv)
+    let dsa_key_pair = DsaKeyPair::new(primes=&prime_pair, k_priv=&k_priv)
 
     //generate signature (r,s) by setting ephemeral_key equal to 4 only for this message
-    let = dsa_signature = dsa_key_pair.generate_signature(ephemeral_key=4 , primes=&prime_pair, m=&message)
+    let dsa_signature = dsa_key_pair.generate_signature(ephemeral_key=4 , primes=&prime_pair, m=&message)
 
     //validate signature
     let result = dsa_signature.verify_signature(m=&message, primes=&prime_pair, key_pair=&dsa_key_pair)
