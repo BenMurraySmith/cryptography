@@ -36,7 +36,7 @@ impl EC {
 
         assert_ne!(expr_modp, BigInt::ZERO);
 
-        EC { a, b, p }
+        Self { a, b, p }
     }
 
     //add two unique points
