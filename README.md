@@ -4,6 +4,7 @@ Rust asymmetric cryptography library supported by my own mathematical primitives
 - Diffie-Hellman
 - Ellitpic Curve Diffie-Hellman
 - DSA
+- ECDSA
 
 
 ## prime-number-generator
