@@ -48,7 +48,7 @@ impl DsaPrimePair {
     fn new(p: BigInt, q:BigInt) -> Self {
         //new() static method checks:
         // 1. proposed primes are sufficiently large (1023 < p < 1024 bits and 159 < q < 160 bits)
-        // 2. q | phi(p)
+        // 2. q | euler_totient(p)
         // 
         // returns DsaPrimePair object on success, otherwise program panics
 
