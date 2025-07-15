@@ -1,10 +1,14 @@
 ## pkc 
-Rust asymmetric cryptography library supported by my own mathematical primitives modules. Current algorithms include:
+Rust asymmetric cryptography library supported by mathematical primitives modules. Current algorithms include:
 - RSA
 - Diffie-Hellman
 - Ellitpic Curve Diffie-Hellman
 - DSA
 - ECDSA
+
+supported by
+- number theory primitives
+- elliptic curve primitives
 
 
 ## prime-number-generator
