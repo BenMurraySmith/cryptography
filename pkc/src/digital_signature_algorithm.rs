@@ -98,7 +98,7 @@ impl DsaPrimePair {
 //1. primes p,q
 //2. alpha
 //3. B
-//where alpha and B are computed during key generation
+//where alpha and B are parameters computed during key generation
 struct DsaPublicKey {
     p: BigInt,
     q: BigInt,
@@ -132,7 +132,7 @@ struct DsaKeyPair {
 impl DsaKeyPair {
     fn new(primes: DsaPrimePair, k_priv: DsaPrivatekey) -> Self {
         //new() method takes public parameters p,q, private d and
-        //initializes g=2 as a generator of Z_q. 
+        //initializes g=2 for a generator of Z_q. 
         //
         //to compute alpha we loop through values of g until we find
         //an alpha such that alpha=g^e != 1 mod p.
@@ -185,13 +185,13 @@ impl DsaKeyPair {
     }
 
     fn generate_signature(&self, ephemeral_key: BigInt, primes: &DsaPrimePair, m: &BigInt) -> DsaSignature {
-        //generate_singature() method generates signature (r,s) using an ephemeral key (per-message secret)
+        //generate_signature() method generates signature (r,s) using an ephemeral key (per-message secret)
         //
         //1. ensure ephemeral key satisfies size constraints
         //2. compute r parameter by raising alpha to ephemeral key mod p mod q
         //3. compute s parameter by 
-        // - computing q-inverse of ephemeral key
-        // - computing s = H(m) + d*r * eph_key_inv mod q
+        //     - computing q-inverse of ephemeral key
+        //     - computing s = H(m) + d*r * eph_key_inv mod q
         //4. return (r,s) wrapped in DsaSignature struct
 
         let p = primes.p;
@@ -214,7 +214,7 @@ impl DsaKeyPair {
 
 }
 
-// (r,s) pair abstraction
+// (r,s) pair object
 struct DsaSignature {
     sig: (BigInt, BigInt)
 }
@@ -225,7 +225,7 @@ impl DsaSignature {
         //verify_signature() method takes as input DsaSignature object, message m and primes p,q
         //and returns boolean
         //
-        //1. pull r,s from DsaSignature object and compute q-inverse of s
+        //1. pull (r,s) from DsaSignature object and compute q-inverse of s
         //2. compute parameter u_1 = s_inv * H(m) mod q
         //3. compute parameter u_2 = s_inv * r mod q
         //4. compute v = (alpha^u_1 mod p) * (B^u_2 mod p) mod p mod q
